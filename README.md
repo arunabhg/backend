@@ -1,5 +1,7 @@
 # Practice project - Backend for CI/CD using GitHub Actions
 
+### [Link to the Frontend](https://github.com/arunabhg/frontend)
+
 ### Steps
 
 - Create your backend project using `node` and `express`.
