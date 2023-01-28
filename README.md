@@ -1,6 +1,12 @@
 # Practice project - Backend for CI/CD using GitHub Actions
 
+**About** - This deployment method _doesn't_ use AWS CodeDeploy or CodePipeline. It uses only `GitHub Actions` to CI/CD a full-stack project to AWS EC2.
+
 ### [Link to the Frontend](https://github.com/arunabhg/frontend)
+
+### Prerequisites
+
+Knowledge of the JavaScript tech stack like Node, Express, React or any other full-stack ecosystem. Knowledge of Git, GitHub, Putty and basic knowledge of AWS.
 
 ### Steps
 
@@ -40,12 +46,17 @@ jobs:
 
 Commit the file.
 
-- Go to the runners part in Settings -> Actions in your GitHub project.
-- Based on the OS you have chosen, select the runner.
+- Go to the runners part in Settings -> Actions in your GitHub project. Click on **New Self-Hosted Runner**.
+- Based on the OS (Linux) you have chosen, select the runner.
 - Copy and paste first line, changing the directory name with your backend directory name.
+
+```js
+mkdir backend && cd backend
+```
+
 - Next, keep copying and pasting each line as it is.
 - Press Enter three times to finish configuring the runner.
-- Inside Putty/terminal, cd to your frontend directory and give the following command
+- Inside Putty/terminal, cd to your backend directory and give the following command,
 
 ```sh
 sudo ./svc.sh install
@@ -57,6 +68,19 @@ sudo ./svc.sh install
 sudo ./svc.sh start
 ```
 
-- Check the runners part inside Settings. There should be an IP which should show Active.
--
+- Check the runners part inside Settings -> Actions. There should be an IP which should show Active. (Similar process needs to be followed in the frontend)
+- Go to the \_work directory inside the backend and inside that go twice inside the same name (backend, in our case) directory.
+  ```
+  cd backend/_work/backend/backend
+  ```
+  We have to start the app.js file using pm2.
+  ```
+  sudo pm2 start app.js --name=backend
+  ```
+- Go to the nodejs.yml file in the workflow and add a step in the end for pm2 to restart the file every time we deploy something.
 
+```
+run: sudo pm2 restart backend
+```
+
+- After completing all steps in the frontend and ensuring that both the backend and frontend workflows are running fine, make some changes in app.js. The changes will be viewable in the browser using the set route (/api in our case).
